@@ -1,1 +1,75 @@
-#
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Películas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Editor de Base de Datos de Películas</h1>
+
+        <div class="key-container">
+            <label for="github-key">Colocar Key (Personal Access Token):</label>
+            <div class="key-input-group">
+                <input type="password" id="github-key" placeholder="Ingresa tu token de GitHub">
+                <button id="btn-ok-key">OK</button>
+            </div>
+            <p class="warning">⚠️ Tu token es privado. No compartas esta página.</p>
+        </div>
+
+        <form id="movie-form">
+            <h2>Datos de la Película</h2>
+
+            <div class="form-group">
+                <label for="id">ID:</label>
+                <div class="id-group">
+                    <input type="text" id="id" name="id" required>
+                    <button type="button" id="btn-load">Cargar Datos</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label for="año">Año:</label>
+                <input type="number" id="año" name="año" required>
+            </div>
+
+            <div class="form-group">
+                <label for="categoria">Categoría:</label>
+                <input type="text" id="categoria" name="categoria" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo">Tipo:</label>
+                <input type="text" id="tipo" name="tipo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="portada">Portada (URL):</label>
+                <input type="url" id="portada" name="portada" required>
+            </div>
+
+            <div class="form-group">
+                <label for="link">Link (URL):</label>
+                <input type="url" id="link" name="link" required>
+            </div>
+
+            <div class="button-group">
+                <button type="button" id="btn-add">Agregar</button>
+                <button type="button" id="btn-update">Actualizar</button>
+            </div>
+        </form>
+
+        <div id="status-message"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
