@@ -3,105 +3,167 @@ import { peliculas } from 'https://moc3pnj.github.io/bd/data.js';
 // --- ELEMENTOS DEL DOM ---
 const form = document.getElementById('add-form');
 const idInput = document.getElementById('id');
-const nombreInput = document.getElementById('nombre'); // Referencia para el foco
+const nombreInput = document.getElementById('nombre');
 const outputContainer = document.getElementById('output-container');
 const outputCodeElement = document.getElementById('output-code');
+const submitButton = form.querySelector('button[type="submit"]');
+const listaContainer = document.getElementById('lista-container');
 
-// --- LÓGICA PRINCIPAL ---
-
-// Creamos una copia local y "mutable" (modificable) de la lista de películas,
-// ya que la lista importada es de solo lectura.
+// --- ESTADO DE LA APLICACIÓN ---
 let peliculasLocales = [...peliculas];
+let enModoEdicion = false;
+let idEnEdicion = null;
+
+// --- FUNCIONES ---
 
 /**
- * Calcula el siguiente ID disponible basándose en el último elemento de la lista local.
- * Actualiza el campo de ID en el formulario.
+ * Muestra la lista de películas en el DOM, añadiendo un botón de editar a cada una.
+ */
+function renderizarLista() {
+    listaContainer.innerHTML = ''; // Limpiar lista antes de redibujar
+
+    peliculasLocales.forEach(pelicula => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'item-pelicula';
+
+        const itemName = document.createElement('span');
+        itemName.textContent = `${pelicula.nombre} (${pelicula.año})`;
+        
+        const editButton = document.createElement('button');
+        editButton.className = 'btn-editar';
+        editButton.innerHTML = '✏️'; // Emoji de lápiz
+        editButton.setAttribute('data-id', pelicula.id);
+        editButton.setAttribute('aria-label', `Editar ${pelicula.nombre}`);
+
+        editButton.addEventListener('click', () => iniciarEdicion(pelicula.id));
+        
+        itemDiv.appendChild(itemName);
+        itemDiv.appendChild(editButton);
+        listaContainer.appendChild(itemDiv);
+    });
+}
+
+/**
+ * Prepara el formulario para editar un ítem.
+ * @param {string} id - El ID de la película a editar.
+ */
+function iniciarEdicion(id) {
+    const peliculaAEditar = peliculasLocales.find(p => p.id === id);
+    if (!peliculaAEditar) return;
+
+    enModoEdicion = true;
+    idEnEdicion = id;
+
+    // Llenar el formulario con los datos existentes
+    form.id.value = peliculaAEditar.id;
+    form.nombre.value = peliculaAEditar.nombre;
+    form.año.value = peliculaAEditar.año;
+    form.categoria.value = peliculaAEditar.categoria;
+    form.tipo.value = peliculaAEditar.tipo;
+    form.portada.value = peliculaAEditar.portada;
+    form.link.value = peliculaAEditar.link;
+
+    // Cambiar el botón a "Actualizar"
+    submitButton.textContent = 'Actualizar';
+    submitButton.classList.add('actualizar');
+
+    form.scrollIntoView({ behavior: 'smooth' });
+    nombreInput.focus();
+}
+
+/**
+ * Resetea el formulario al estado inicial para añadir un nuevo ítem.
+ */
+function resetearFormulario() {
+    enModoEdicion = false;
+    idEnEdicion = null;
+    
+    form.reset();
+    
+    submitButton.textContent = 'Añadir';
+    submitButton.classList.remove('actualizar');
+    
+    actualizarSiguienteId();
+    nombreInput.focus();
+}
+
+/**
+ * Calcula el siguiente ID disponible.
  */
 function actualizarSiguienteId() {
-    // Si la lista está vacía, empezamos desde el ID 1. Si no, tomamos el último ID.
     const ultimoItem = peliculasLocales.length > 0 ? peliculasLocales[peliculasLocales.length - 1] : { id: '0000' };
     const siguienteIdNumero = parseInt(ultimoItem.id, 10) + 1;
-    // Formateamos el ID a 4 dígitos (ej: "0009") y lo asignamos al input.
     idInput.value = String(siguienteIdNumero).padStart(4, '0');
 }
 
 /**
- * Genera el string completo del archivo `data.js` con la lista actualizada.
- * @param {Array<object>} listaCompleta - La lista completa de ítems (películas/series).
- * @returns {string} El código formateado para copiar y pegar.
+ * Genera el string de código del archivo `data.js` a partir de la lista.
  */
 function generarCodigo(listaCompleta) {
     let codigo = 'const peliculas = [\n';
-
     listaCompleta.forEach((item, index) => {
-        // Convierte el objeto a un string JSON con formato legible.
-        const itemString = JSON.stringify(item, null, 2)
-                               .replace(/"([^"]+)":/g, '$1:'); // Quita las comillas de las claves.
-
+        const itemString = JSON.stringify(item, null, 2).replace(/"([^"]+)":/g, '$1:');
         codigo += `  ${itemString}`;
-
-        // Añade una coma si no es el último elemento.
         if (index < listaCompleta.length - 1) {
             codigo += ',\n';
         } else {
             codigo += '\n';
         }
     });
-
     codigo += '];\n\n';
     codigo += 'export { peliculas };';
-
     return codigo;
 }
 
-// --- EVENTOS ---
+// --- EVENTO PRINCIPAL DEL FORMULARIO ---
 
-// Escuchamos el evento de envío del formulario.
 form.addEventListener('submit', (event) => {
-    // Prevenimos el comportamiento por defecto (recargar la página).
     event.preventDefault();
-
-    // Obtenemos los datos del formulario.
     const formData = new FormData(form);
 
-    // Creamos el nuevo objeto de película con los datos.
-    const nuevaPelicula = {
-        id: formData.get('id'),
-        nombre: formData.get('nombre'),
-        año: parseInt(formData.get('año'), 10), // Convertimos el año a número.
-        categoria: formData.get('categoria'),
-        tipo: formData.get('tipo'),
-        portada: formData.get('portada'),
-        link: formData.get('link'),
-    };
-
-    // **PASO CLAVE**: Añadimos la nueva película a nuestra copia local de la lista.
-    peliculasLocales.push(nuevaPelicula);
-
-    // Generamos el nuevo código para mostrar en pantalla.
+    if (enModoEdicion) {
+        // --- LÓGICA DE ACTUALIZACIÓN ---
+        const peliculaActualizada = {
+            id: idEnEdicion,
+            nombre: formData.get('nombre'),
+            año: parseInt(formData.get('año'), 10),
+            categoria: formData.get('categoria'),
+            tipo: formData.get('tipo'),
+            portada: formData.get('portada'),
+            link: formData.get('link'),
+        };
+        const index = peliculasLocales.findIndex(p => p.id === idEnEdicion);
+        if (index !== -1) {
+            peliculasLocales[index] = peliculaActualizada;
+        }
+    } else {
+        // --- LÓGICA DE AÑADIR ---
+        const nuevaPelicula = {
+            id: formData.get('id'),
+            nombre: formData.get('nombre'),
+            año: parseInt(formData.get('año'), 10),
+            categoria: formData.get('categoria'),
+            tipo: formData.get('tipo'),
+            portada: formData.get('portada'),
+            link: formData.get('link'),
+        };
+        peliculasLocales.push(nuevaPelicula);
+    }
+    
+    // Pasos finales comunes para añadir y actualizar
     const codigoGenerado = generarCodigo(peliculasLocales);
-
-    // Mostramos el resultado.
     outputCodeElement.textContent = codigoGenerado;
     outputContainer.style.display = 'block';
-    outputContainer.scrollIntoView({ behavior: 'smooth' }); // Hacemos scroll para ver el resultado.
-
-    // --- ✨ LA SOLUCIÓN QUE PEDISTE ✨ ---
-
-    // 1. Limpiamos todos los campos del formulario.
-    form.reset();
-
-    // 2. Calculamos y mostramos el ID para el siguiente título que se quiera añadir.
-    actualizarSiguienteId();
-
-    // 3. Ponemos el cursor en el campo "Nombre" para que puedas empezar a escribir de inmediato.
-    nombreInput.focus();
+    
+    renderizarLista();
+    resetearFormulario();
+    
+    outputContainer.scrollIntoView({ behavior: 'smooth' });
 });
 
 // --- EJECUCIÓN INICIAL ---
-
-// Al cargar la página, calculamos el primer ID disponible y lo mostramos.
-actualizarSiguienteId();
-// Ponemos el foco en el campo nombre para una mejor experiencia de usuario.
-nombreInput.focus();
-
+// Al cargar la página, se muestra la lista y se prepara el formulario.
+document.addEventListener('DOMContentLoaded', () => {
+    renderizarLista();
+    resetearFormulario();
+});
