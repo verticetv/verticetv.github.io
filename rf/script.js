@@ -1,5 +1,3 @@
-// Importamos la base de datos directamente desde tu repositorio de GitHub.
-// Es crucial que el archivo en GitHub esté disponible y en el formato correcto.
 import { peliculas } from 'https://moc3pnj.github.io/bd/data.js';
 
 // --- ELEMENTOS DEL DOM ---
