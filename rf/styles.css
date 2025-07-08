@@ -92,3 +92,75 @@ pre {
     max-height: 400px;
     overflow-y: auto;
 }
+/* Separador visual */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #ddd;
+    margin: 40px 0;
+}
+
+h2 {
+    text-align: center;
+    color: #43a047;
+    font-size: 1.2em;
+    margin-top: 30px;
+}
+
+/* Contenedor de la lista de títulos */
+#lista-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Estilo para cada elemento de la lista */
+.item-pelicula {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    transition: box-shadow 0.2s ease;
+}
+
+.item-pelicula:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.item-pelicula span {
+    font-weight: 500;
+    color: #333;
+}
+
+/* Botón de editar (lápiz) */
+.btn-editar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3em;
+    color: #555;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-editar:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+/* Clase para el botón principal cuando está en modo "Actualizar" */
+button.actualizar {
+    background-color: #43a047; /* Color verde para actualizar */
+}
+
+button.actualizar:hover {
+    background-color: #388e3c;
+}
