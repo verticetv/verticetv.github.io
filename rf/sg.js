@@ -1,162 +1,179 @@
-// Importamos la base de datos desde GitHub
-import { peliculas } from 'https://moc3pnj.github.io/bd/data.js';
+// Obtén una referencia al elemento body del documento
+const body = document.querySelector('body');
 
-// --- CONSTANTES Y CLAVES PARA LOCALSTORAGE ---
-const MAX_ATTEMPTS = 2;
-const LOCKOUT_KEY = 'lockoutTimestamp';
-const ATTEMPTS_KEY = 'failedAttempts';
+// Crea un div para el fondo oscuro
+const overlay = document.createElement('div');
+overlay.style.position = 'fixed';
+overlay.style.top = '0';
+overlay.style.left = '0';
+overlay.style.width = '100%';
+overlay.style.height = '100%';
+overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+overlay.style.zIndex = '9998'; // Un z-index alto para que esté encima de todo
 
-// --- ELEMENTOS DEL DOM (obtenidos sin necesidad de nuevos IDs) ---
-const form = document.getElementById('add-form');
-// Seleccionamos el botón por su tipo dentro del formulario
-const submitButton = document.querySelector('#add-form button[type="submit"]');
-const idInput = document.getElementById('id');
-const mainContainer = document.querySelector('main');
-const outputContainer = document.getElementById('output-container');
-const outputCodeElement = document.getElementById('output-code');
+// Crea un div para el contenedor del formulario
+const formContainer = document.createElement('div');
+formContainer.style.position = 'fixed';
+formContainer.style.top = '50%';
+formContainer.style.left = '50%';
+formContainer.style.transform = 'translate(-50%, -50%)';
+formContainer.style.backgroundColor = '#fff';
+formContainer.style.padding = '30px';
+formContainer.style.borderRadius = '8px';
+formContainer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+formContainer.style.zIndex = '9999'; // Más alto que el overlay
+formContainer.style.width = '300px'; // Ancho fijo para el contenedor
 
+// Añade un título al formulario
+const title = document.createElement('h2');
+title.textContent = 'Acceso Restringido';
+title.style.textAlign = 'center';
+title.style.marginBottom = '20px';
 
-// --- LÓGICA DE BLOQUEO ---
+// Crea el formulario
+const form = document.createElement('form');
+form.style.display = 'flex';
+form.style.flexDirection = 'column';
+form.style.alignItems = 'center';
+
+// Crea el input para la clave
+const input = document.createElement('input');
+input.setAttribute('type', 'password');
+input.setAttribute('placeholder', 'Ingresa la clave');
+input.style.padding = '10px';
+input.style.marginBottom = '15px';
+input.style.border = '1px solid #ccc';
+input.style.borderRadius = '4px';
+input.style.width = '100%'; // Ocupa todo el ancho del contenedor
+
+// Crea el botón de enviar
+const button = document.createElement('button');
+button.setAttribute('type', 'submit');
+button.textContent = 'Entrar';
+button.style.padding = '10px 20px';
+button.style.backgroundColor = '#007bff';
+button.style.color = '#fff';
+button.style.border = 'none';
+button.style.borderRadius = '4px';
+button.style.cursor = 'pointer';
+button.style.transition = 'background-color 0.3s ease';
+button.style.width = '100%'; // Ocupa todo el ancho del contenedor
+
+// Añade un efecto hover al botón
+button.onmouseover = () => { button.style.backgroundColor = '#0056b3'; };
+button.onmouseout = () => { button.style.backgroundColor = '#007bff'; };
+
+// Mensaje de error o bloqueo (inicialmente oculto)
+const message = document.createElement('p');
+message.style.color = 'red';
+message.style.marginTop = '10px';
+message.style.textAlign = 'center';
+message.style.display = 'none'; // Oculto por defecto
+
+// Agrega los elementos al formulario
+form.appendChild(input);
+form.appendChild(button);
+
+// Agrega el título, el formulario y el mensaje al contenedor
+formContainer.appendChild(title);
+formContainer.appendChild(form);
+formContainer.appendChild(message);
+
+// Agrega el overlay y el contenedor del formulario al body
+body.appendChild(overlay);
+body.appendChild(formContainer);
+
+// La clave correcta
+const correctKey = '32370953';
+const MAX_ATTEMPTS = 2; // Número máximo de intentos fallidos
+const BLOCK_DURATION_MS = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
 
 /**
- * Muestra el mensaje de bloqueo y la cuenta regresiva.
- * Oculta el contenido principal para "cerrar" la página.
+ * Función para actualizar el mensaje de bloqueo.
+ * @param {number} remainingTime - Tiempo restante en milisegundos.
  */
-function displayLockout(lockoutEndTime) {
-    mainContainer.style.display = 'none'; // Ocultamos todo el formulario
-
-    let lockoutMessageDiv = document.getElementById('lockout-message');
-    if (!lockoutMessageDiv) {
-        lockoutMessageDiv = document.createElement('div');
-        lockoutMessageDiv.id = 'lockout-message';
-        lockoutMessageDiv.style.textAlign = 'center';
-        lockoutMessageDiv.style.padding = '40px';
-        lockoutMessageDiv.style.backgroundColor = '#fff';
-        lockoutMessageDiv.style.borderRadius = '12px';
-        lockoutMessageDiv.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
-        document.body.appendChild(lockoutMessageDiv);
-    }
-    
-    const updateCountdown = () => {
-        const now = Date.now();
-        const timeLeft = lockoutEndTime - now;
-
-        if (timeLeft <= 0) {
-            clearInterval(countdownInterval);
-            localStorage.removeItem(LOCKOUT_KEY);
-            localStorage.removeItem(ATTEMPTS_KEY);
-            lockoutMessageDiv.remove();
-            mainContainer.style.display = 'block';
-            return;
-        }
-
-        const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
-        const seconds = Math.floor((timeLeft / 1000) % 60);
-
-        lockoutMessageDiv.innerHTML = `
-            <h2>❌ Página Bloqueada</h2>
-            <p>Has superado el número máximo de intentos fallidos.</p>
-            <p>Por favor, espera:</p>
-            <p style="font-size: 2em; color: #d32f2f; margin: 10px 0;">
-                ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}
-            </p>
-        `;
-    };
-
-    const countdownInterval = setInterval(updateCountdown, 1000);
-    updateCountdown();
+function updateBlockMessage(remainingTime) {
+    const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+    message.textContent = `Demasiados intentos fallidos. Inténtalo de nuevo en ${hours}h ${minutes}m ${seconds}s.`;
+    message.style.display = 'block';
 }
 
 /**
- * Comprueba al cargar la página si ya existe un bloqueo activo.
+ * Función para verificar el estado de bloqueo.
+ * @returns {boolean} True si la página está bloqueada, false en caso contrario.
  */
-function checkInitialLockout() {
-    const lockoutTimestamp = localStorage.getItem(LOCKOUT_KEY);
-    if (lockoutTimestamp) {
-        const lockoutEndTime = parseInt(lockoutTimestamp, 10) + (24 * 60 * 60 * 1000);
-        if (Date.now() < lockoutEndTime) {
-            displayLockout(lockoutEndTime);
-            // Si está bloqueado, deshabilitamos el botón para mayor seguridad
-            if (submitButton) submitButton.disabled = true;
-        } else {
-            localStorage.removeItem(LOCKOUT_KEY);
-            localStorage.removeItem(ATTEMPTS_KEY);
-        }
+function checkBlockStatus() {
+    const blockUntil = localStorage.getItem('blockUntil');
+    const now = new Date().getTime();
+
+    if (blockUntil && now < parseInt(blockUntil)) {
+        // La página está bloqueada
+        form.style.display = 'none'; // Oculta el formulario de entrada
+        updateBlockMessage(parseInt(blockUntil) - now);
+        // Actualiza el contador cada segundo
+        const intervalId = setInterval(() => {
+            const newNow = new Date().getTime();
+            if (newNow >= parseInt(blockUntil)) {
+                clearInterval(intervalId);
+                // El tiempo de bloqueo ha terminado, limpia el almacenamiento y recarga la página
+                localStorage.removeItem('blockAttempts');
+                localStorage.removeItem('blockUntil');
+                location.reload(); // Recarga la página para mostrar el formulario de nuevo
+            } else {
+                updateBlockMessage(parseInt(blockUntil) - newNow);
+            }
+        }, 1000);
+        return true;
     }
+    return false;
 }
 
-// --- LÓGICA PRINCIPAL DEL FORMULARIO ---
-
-// Asignar el nuevo ID al cargar la página
-if (peliculas.length > 0) {
-    const lastItem = peliculas[peliculas.length - 1];
-    const nextIdNumber = parseInt(lastItem.id, 10) + 1;
-    idInput.value = String(nextIdNumber).padStart(4, '0');
+// Inicializa el contador de intentos si no existe
+if (localStorage.getItem('blockAttempts') === null) {
+    localStorage.setItem('blockAttempts', '0');
 }
 
-// Escuchamos el evento de 'submit' del formulario
-form.addEventListener('submit', (event) => {
-    // ¡Muy importante! Prevenimos el comportamiento por defecto (recargar la página)
-    event.preventDefault();
+// Verifica si la página debe estar bloqueada al cargar
+if (checkBlockStatus()) {
+    // No hagas nada más, el mensaje de bloqueo ya se está mostrando y actualizando
+} else {
+    // Si no está bloqueada, muestra el formulario
+    form.style.display = 'flex';
+    message.style.display = 'none'; // Asegúrate de que el mensaje de error esté oculto si no hay bloqueo
+}
 
-    // Si el formulario es válido, procesamos los datos
-    if (form.checkValidity()) {
-        localStorage.setItem(ATTEMPTS_KEY, '0');
+// Manejador del evento submit del formulario
+form.addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita que el formulario se envíe y recargue la página
 
-        const nuevaPelicula = {
-            id: idInput.value,
-            nombre: document.getElementById('nombre').value,
-            año: parseInt(document.getElementById('año').value, 10),
-            categoria: document.getElementById('categoria').value,
-            tipo: document.getElementById('tipo').value,
-            portada: document.getElementById('portada').value,
-            link: document.getElementById('link').value,
-        };
+    const enteredKey = input.value;
+    let attempts = parseInt(localStorage.getItem('blockAttempts'));
 
-        const codigoGenerado = generarCodigo(nuevaPelicula);
-        outputCodeElement.textContent = codigoGenerado;
-        outputContainer.style.display = 'block';
-        outputContainer.scrollIntoView({ behavior: 'smooth' });
-
+    if (enteredKey === correctKey) {
+        // Si la clave es correcta, oculta el formulario y el overlay
+        formContainer.style.display = 'none';
+        overlay.style.display = 'none';
+        // Reinicia los intentos y el tiempo de bloqueo
+        localStorage.setItem('blockAttempts', '0');
+        localStorage.removeItem('blockUntil');
     } else {
-        // El navegador mostrará los errores de validación por sí solo.
-        // Aquí contamos el intento fallido porque el evento 'submit' fue interceptado.
-        let attempts = parseInt(localStorage.getItem(ATTEMPTS_KEY) || '0', 10);
+        // Clave incorrecta
         attempts++;
-        localStorage.setItem(ATTEMPTS_KEY, attempts);
+        localStorage.setItem('blockAttempts', attempts.toString());
+        input.value = ''; // Limpia el input
 
         if (attempts >= MAX_ATTEMPTS) {
-            const lockoutTime = Date.now();
-            localStorage.setItem(LOCKOUT_KEY, lockoutTime);
-            displayLockout(lockoutTime + (24 * 60 * 60 * 1000));
+            // Demasiados intentos, bloquea la página
+            const blockUntil = new Date().getTime() + BLOCK_DURATION_MS;
+            localStorage.setItem('blockUntil', blockUntil.toString());
+            form.style.display = 'none'; // Oculta el formulario
+            checkBlockStatus(); // Muestra el mensaje de bloqueo y comienza el contador
         } else {
-            alert(`Intento fallido ${attempts} de ${MAX_ATTEMPTS}. Por favor, completa todos los campos requeridos.`);
+            // Muestra el mensaje de error normal
+            message.textContent = `Clave incorrecta. Te quedan ${MAX_ATTEMPTS - attempts} intentos.`;
+            message.style.display = 'block';
         }
     }
 });
-
-
-/**
- * Genera el string completo del archivo data.js con el nuevo elemento.
- */
-function generarCodigo(nuevoItem) {
-    let codigo = 'const peliculas = [\n';
-    const todosLosItems = [...peliculas, nuevoItem];
-    todosLosItems.forEach((item, index) => {
-        const itemString = JSON.stringify(item, null, 2).replace(/"([^"]+)":/g, '$1:');
-        codigo += `  ${itemString}`;
-        if (index < todosLosItems.length - 1) {
-            codigo += ',\n';
-        } else {
-            codigo += '\n';
-        }
-    });
-    codigo += '];\n\n';
-    codigo += 'export { peliculas };';
-    return codigo;
-}
-
-// --- INICIALIZACIÓN ---
-// Al cargar la página, verificamos si el usuario ya está bloqueado.
-checkInitialLockout();
