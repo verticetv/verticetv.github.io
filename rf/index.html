@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Añadir a la Base de Datos</title>
+    <title>Editor de Base de Datos</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
 <body>
 
     <main>
-        <h1>🎬 Añadir Nuevo Título</h1>
+        <h1>🎬 Añadir o Actualizar Título</h1>
         <form id="add-form">
             <div class="form-group">
                 <label for="id">ID (Automático)</label>
@@ -60,9 +60,14 @@
             <h2>✅ ¡Listo! Copia este código y pégalo en tu archivo `data.js`</h2>
             <pre><code id="output-code"></code></pre>
         </div>
+
+        <hr>
+        <h2>📚 Títulos Existentes</h2>
+        <div id="lista-container">
+            </div>
     </main>
 
     <script src="app.js" type="module"></script>
-    <script src="sg.js" type="module"></script>
 </body>
 </html>
+
