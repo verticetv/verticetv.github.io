@@ -1,6 +1,6 @@
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f4f7f9;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
     color: #333;
     display: flex;
     justify-content: center;
@@ -10,138 +10,85 @@ body {
     padding: 20px;
 }
 
-.container {
-    background-color: #fff;
-    padding: 2.5rem;
+main {
+    background-color: #ffffff;
+    padding: 30px 40px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 600px;
 }
 
-h1, h2 {
-    text-align: center;
-    color: #2c3e50;
-}
-
 h1 {
-    margin-bottom: 2rem;
+    text-align: center;
+    color: #1e88e5;
+    margin-bottom: 25px;
 }
 
 h2 {
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-}
-
-.key-container {
-    background-color: #fff3cd;
-    border: 1px solid #ffeeba;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
     text-align: center;
-}
-
-.key-input-group {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 0.5rem;
-}
-
-.warning {
-    font-size: 0.8rem;
-    color: #856404;
-    margin-top: 0.5rem;
+    color: #43a047;
+    font-size: 1.2em;
+    margin-top: 30px;
 }
 
 .form-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 18px;
 }
 
 label {
     display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+    font-weight: 500;
+    margin-bottom: 6px;
 }
 
 input[type="text"],
 input[type="number"],
 input[type="url"],
-input[type="password"] {
+select {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    box-sizing: border-box; /* Importante para el padding */
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1em;
 }
 
-input:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-}
-
-.id-group {
-    display: flex;
-    gap: 10px;
-}
-
-.id-group input {
-    flex-grow: 1;
+input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    font-weight: bold;
 }
 
 button {
-    padding: 0.75rem 1.5rem;
+    width: 100%;
+    padding: 15px;
+    background-color: #1e88e5;
+    color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+    transition: background-color 0.3s ease;
 }
 
-button:active {
-    transform: scale(0.98);
+button:hover {
+    background-color: #1565c0;
 }
 
-#btn-ok-key, #btn-load {
-    background-color: #6c757d;
-    color: white;
+#output-container {
+    margin-top: 30px;
 }
 
-#btn-ok-key:hover, #btn-load:hover {
-    background-color: #5a6268;
-}
-
-.button-group {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 2rem;
-}
-
-#btn-add {
-    background-color: #28a745;
-    color: white;
-}
-
-#btn-add:hover {
-    background-color: #218838;
-}
-
-#btn-update {
-    background-color: #007bff;
-    color: white;
-}
-
-#btn-update:hover {
-    background-color: #0069d9;
-}
-
-#status-message {
-    margin-top: 1.5rem;
-    text-align: center;
-    font-weight: 600;
+pre {
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: 20px;
+    border-radius: 8px;
+    white-space: pre-wrap; /* Para que el texto no se salga del contenedor */
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+    max-height: 400px;
+    overflow-y: auto;
 }
