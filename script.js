@@ -1,62 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const taglineContainer = document.getElementById('tagline-container');
+    // --- Lógica para la Animación "Dropping Texts" ---
 
-    const taglines = [
-        "Descubre un nuevo mundo.",
-        "Series y películas sin límites.",
-        "La televisión del futuro, hoy.",
-        "¿Listo para la función?",
-        "Calidad y variedad en un solo lugar.",
-        "Únete a la comunidad."
+    // Edita esta lista para añadir, quitar o cambiar las palabras animadas
+    const words = [
+        "Increíble",
+        "Inolvidable",
+        "Emocionante",
+        "Para Todos"
     ];
 
-    let currentTaglineIndex = 0;
-    let currentChars = [];
+    const container = document.getElementById('dropping-texts-container');
+    const totalWords = words.length;
+    
+    // La duración total de un ciclo de animación será el número de palabras + 1 segundo de pausa.
+    const animationDuration = totalWords + 1; 
 
-    function updateTagline() {
-        const newTagline = taglines[currentTaglineIndex];
-        const newChars = newTagline.split('');
+    words.forEach((word, index) => {
+        const div = document.createElement('div');
+        div.textContent = word;
 
-        // Limpia el contenedor para la nueva animación
-        taglineContainer.innerHTML = '';
-        currentChars = [];
-
-        newChars.forEach((char, index) => {
-            // Crea la estructura para cada letra: <div class="char"><div class="char-inner">...</div></div>
-            const charWrapper = document.createElement('div');
-            charWrapper.classList.add('char');
-            
-            const charInner = document.createElement('div');
-            charInner.classList.add('char-inner');
-
-            const charFront = document.createElement('span');
-            charFront.classList.add('char-front');
-            // Si hay un carácter antiguo en esta posición, lo usamos, si no, empezamos en blanco
-            charFront.textContent = ' '; 
-
-            const charBack = document.createElement('span');
-            charBack.classList.add('char-back');
-            // El espacio en blanco se maneja con un espacio no rompible para mantener la dimensión
-            charBack.innerHTML = (char === ' ') ? '&nbsp;' : char;
-
-            charInner.appendChild(charFront);
-            charInner.appendChild(charBack);
-            charWrapper.appendChild(charInner);
-            taglineContainer.appendChild(charWrapper);
-
-            currentChars.push(charWrapper);
-            
-            // Aplica la animación de 'flip' con un pequeño retraso secuencial
-            setTimeout(() => {
-                charWrapper.classList.add('flip');
-            }, index * 80); // 80ms de retraso entre cada letra
-        });
-
-        // Prepara el índice para la siguiente frase
-        currentTaglineIndex = (currentTaglineIndex + 1) % taglines.length;
-    }
-
-    // Inicia el ciclo de cambio de frases
-    updateTagline(); // Muestra la primera frase inmediatamente
-    setInterval(updateTagline, 5000); // Cambia la frase cada 5 segundos
+        // Determina qué animación usar. La última palabra tiene un efecto de salida diferente.
+        const animationName = (index === totalWords - 1) ? 'roll-last' : 'roll';
+        
+        // Aplica el estilo de animación dinámicamente.
+        // Cada palabra inicia su animación 1 segundo después de la anterior.
+        div.style.animation = `${animationName} ${animationDuration}s linear infinite ${index}s`;
+        
+        container.appendChild(div);
+    });
 });
