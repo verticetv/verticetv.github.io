@@ -164,3 +164,91 @@ button.actualizar {
 button.actualizar:hover {
     background-color: #388e3c;
 }
+
+h1 i, h2 i {
+    margin-right: 8px;
+}
+
+button i {
+    margin-right: 8px;
+}
+
+/* --- ESTILOS PARA LOS BOTONES DE ACCIÓN EN LA LISTA --- */
+
+.item-pelicula {
+    /* ... (sin cambios) ... */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    transition: box-shadow 0.2s ease;
+}
+
+.item-pelicula-info {
+    font-weight: 500;
+    color: #333;
+}
+
+.item-pelicula-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Estilo base para los botones de icono (editar y eliminar) */
+.btn-icono {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 8px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-editar {
+    color: #555;
+}
+
+.btn-editar:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+.btn-eliminar {
+    color: #d32f2f; /* Rojo para indicar peligro */
+}
+
+.btn-eliminar:hover {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+/* --- ESTILO PARA EL BOTÓN DE COPIAR --- */
+#copy-button {
+    width: auto;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    background-color: #673ab7; /* Un color distinto */
+    font-size: 1em;
+}
+
+#copy-button:hover {
+    background-color: #512da8;
+}
+
+/* Clase para el botón principal cuando está en modo "Actualizar" */
+button.actualizar {
+    background-color: #43a047;
+}
+
+button.actualizar:hover {
+    background-color: #388e3c;
+}
