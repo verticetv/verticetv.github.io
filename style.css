@@ -3,7 +3,7 @@
     --primary-font: 'Roboto', sans-serif;
     --background-color: #0c0c0c;
     --text-color: #ffffff;
-    --accent-color: #e50914; /* Un rojo vibrante, similar a Netflix */
+    --accent-color: #e50914;
     --accent-hover-color: #f40612;
     --shadow-color: rgba(0, 0, 0, 0.75);
 }
@@ -19,7 +19,7 @@ body, html {
     font-family: var(--primary-font);
     background-color: var(--background-color);
     color: var(--text-color);
-    overflow: hidden; /* Evita el scroll no deseado */
+    overflow: hidden;
 }
 
 /* --- Fondo Cinematográfico y Superposición --- */
@@ -30,10 +30,10 @@ body, html {
     width: 100%;
     height: 100%;
     z-index: -2;
-    background-image: url('https://images.hdqwalls.com/download/the-batman-2022-movie-g5-1920x1080.jpg'); /* Reemplaza con una imagen de alta calidad */
+    /* IMAGEN DE FONDO RESTAURADA */
+    background-image: url('/img/4DPM42K2SNBQJIFZE7AKFJNOC4.jpg');
     background-size: cover;
     background-position: center;
-    /* Animación de zoom sutil para un efecto dinámico */
     animation: zoom-in 25s ease-in-out infinite;
 }
 
@@ -44,7 +44,6 @@ body, html {
     width: 100%;
     height: 100%;
     z-index: -1;
-    /* Gradiente oscuro para mejorar la legibilidad del texto */
     background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
 }
 
@@ -75,67 +74,91 @@ body, html {
     font-size: 1.8rem;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-shadow: 0 0 15px var(--shadow-color);
 }
 
 .hero-section {
     width: 100%;
-    max-width: 900px; /* Limita el ancho para mejor lectura en pantallas grandes */
+    max-width: 900px;
 }
 
-.main-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-shadow: 0 4px 20px var(--shadow-color);
-}
-
-/* --- Estilos para la Animación de Flip --- */
-.tagline {
-    font-size: 3.5rem;
-    font-weight: 900;
-    margin-bottom: 50px;
-    min-height: 120px;
+/* --- ESTILOS PARA LA NUEVA ANIMACIÓN "DROPPING TEXTS" --- */
+.tagline-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 500px; /* Esencial para el efecto 3D del flip */
-    flex-wrap: wrap; /* Permite que el texto se ajuste en pantallas pequeñas */
+    font-size: 3.2rem;
+    font-weight: 700;
+    margin-bottom: 50px;
+    min-height: 120px;
+    flex-wrap: wrap; /* Para que se ajuste en móviles */
+    text-shadow: 0 4px 20px var(--shadow-color);
 }
 
-.char {
-    position: relative;
+.static-text {
+    margin-right: 15px;
+}
+
+.dropping-texts {
     display: inline-block;
-    transform-style: preserve-3d;
-    transition: transform 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.5); /* Transición suave y con rebote */
+    height: 50px; /* Altura para contener las palabras */
+    text-align: left;
 }
 
-.char.flip {
-    transform: rotateX(180deg);
-}
-
-.char-inner {
-    display: block;
-    position: relative;
-    transform-style: preserve-3d;
-}
-
-.char-front, .char-back {
-    display: block;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    text-shadow: 0 5px 25px var(--shadow-color);
-}
-
-.char-back {
+.dropping-texts > div {
+    font-size: 0px;
+    opacity: 0;
+    margin-left: -30px;
     position: absolute;
-    top: 0;
-    left: 0;
-    transform: rotateX(180deg);
+    font-weight: 900;
+    color: #fff; /* Color destacado para la palabra animada */
 }
 
-/* --- Botón de Descarga Profesional --- */
+/* Keyframes para la animación de caída */
+@keyframes roll {
+    0% {
+        font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(-25deg);
+    }
+    3% {
+        opacity: 1; transform: rotate(0deg);
+    }
+    5% {
+        font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px;
+    }
+    20% {
+        font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; transform: rotate(0deg);
+    }
+    27% {
+        font-size: 0px; opacity: 0.5; margin-left: 20px; margin-top: 100px;
+    }
+    100% {
+        font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(15deg);
+    }
+}
+
+/* Keyframes para la última palabra (efecto de salida diferente) */
+@keyframes roll-last {
+    0% {
+        font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(-25deg);
+    }
+    3% {
+        opacity: 1; transform: rotate(0deg);
+    }
+    5% {
+        font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px;
+    }
+    30% { /* Permanece visible más tiempo */
+        font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; transform: rotate(0deg);
+    }
+    37% { /* Efecto de salida dramático */
+        font-size: 800px; opacity: 0; margin-left: -600px; margin-top: -400px;
+    }
+    100% {
+        font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(15deg);
+    }
+}
+
+
+/* --- Botón de Descarga --- */
 .cta-button {
     display: inline-flex;
     align-items: center;
@@ -156,42 +179,37 @@ body, html {
 
 .cta-button:hover {
     background-color: var(--accent-hover-color);
-    transform: scale(1.05); /* Efecto de crecimiento al pasar el cursor */
+    transform: scale(1.05);
     box-shadow: 0 6px 40px rgba(229, 9, 20, 0.4);
 }
 
 .cta-button .icon {
     margin-right: 15px;
     font-size: 1.6rem;
-    transition: transform 0.3s ease;
 }
 
-.cta-button:hover .icon {
-    transform: translateY(-2px); /* El ícono se eleva un poco */
-}
-
-/* --- Media Queries para Responsividad en Teléfonos --- */
+/* --- Media Queries para Responsividad --- */
 @media (max-width: 768px) {
     .logo {
         font-size: 1.5rem;
     }
     
-    .main-title {
+    .tagline-wrapper {
         font-size: 1.8rem;
+        flex-direction: column; /* Apila el texto en móviles */
     }
 
-    .tagline {
-        font-size: 2.2rem;
-        min-height: 150px; /* Más altura para texto de varias líneas */
-        margin-bottom: 40px;
+    .static-text {
+        margin-right: 0;
+        margin-bottom: 10px;
     }
 
+    .dropping-texts {
+        height: 40px;
+    }
+    
     .cta-button {
         padding: 15px 30px;
         font-size: 1.1rem;
-    }
-
-    .cta-button .icon {
-        font-size: 1.3rem;
     }
 }
