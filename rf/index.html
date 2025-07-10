@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor de Base de Datos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,28 +13,24 @@
 <body>
 
     <main>
-        <h1>🎬 Añadir o Actualizar Título</h1>
+        <h1><i class="fa-solid fa-database"></i> Panel de Control BD</h1>
         <form id="add-form">
             <div class="form-group">
                 <label for="id">ID (Automático)</label>
                 <input type="text" id="id" name="id" readonly>
             </div>
-
             <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" required>
             </div>
-
             <div class="form-group">
                 <label for="año">Año</label>
                 <input type="number" id="año" name="año" required>
             </div>
-
             <div class="form-group">
                 <label for="categoria">Categoría</label>
                 <input type="text" id="categoria" name="categoria" required>
             </div>
-
             <div class="form-group">
                 <label for="tipo">Tipo</label>
                 <select id="tipo" name="tipo" required>
@@ -42,27 +39,25 @@
                     <option value="K-Drama">K-Drama</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="portada">URL de la Portada</label>
                 <input type="url" id="portada" name="portada" required>
             </div>
-
             <div class="form-group">
                 <label for="link">URL del Link</label>
                 <input type="url" id="link" name="link" required>
             </div>
-
-            <button type="submit">Añadir</button>
+            <button type="submit"><i class="fa-solid fa-plus"></i> Añadir</button>
         </form>
 
         <div id="output-container" style="display: none;">
-            <h2>✅ ¡Listo! Copia este código y pégalo en tu archivo `data.js`</h2>
+            <h2><i class="fa-solid fa-check-circle"></i> Afirmativo, datos modificados con éxito.</h2>
+            <button id="copy-button"><i class="fa-solid fa-copy"></i> Copiar Código</button>
             <pre><code id="output-code"></code></pre>
         </div>
 
         <hr>
-        <h2>📚 Títulos Existentes</h2>
+        <h2><i class="fa-solid fa-list-ul"></i> Títulos Existentes</h2>
         <div id="lista-container">
             </div>
     </main>
@@ -70,4 +65,3 @@
     <script src="app.js" type="module"></script>
 </body>
 </html>
-
