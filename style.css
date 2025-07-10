@@ -1,7 +1,7 @@
 /* --- Variables y Estilos Globales --- */
 :root {
     --primary-font: 'Roboto', sans-serif;
-    --background-color: #;
+    --background-color: null;
     --text-color: #ffffff;
     --accent-color: #e50914;
     --accent-hover-color: #f40612;
