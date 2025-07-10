@@ -8,6 +8,7 @@ const outputContainer = document.getElementById('output-container');
 const outputCodeElement = document.getElementById('output-code');
 const submitButton = form.querySelector('button[type="submit"]');
 const listaContainer = document.getElementById('lista-container');
+const copyButton = document.getElementById('copy-button');
 
 // --- ESTADO DE LA APLICACIÓN ---
 let peliculasLocales = [...peliculas];
@@ -17,35 +18,46 @@ let idEnEdicion = null;
 // --- FUNCIONES ---
 
 /**
- * Muestra la lista de películas en el DOM, añadiendo un botón de editar a cada una.
+ * Muestra la lista de películas en el DOM, añadiendo botones de editar y eliminar.
  */
 function renderizarLista() {
-    listaContainer.innerHTML = ''; // Limpiar lista antes de redibujar
+    listaContainer.innerHTML = '';
 
     peliculasLocales.forEach(pelicula => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'item-pelicula';
 
         const itemName = document.createElement('span');
+        itemName.className = 'item-pelicula-info';
         itemName.textContent = `${pelicula.nombre} (${pelicula.año})`;
         
-        const editButton = document.createElement('button');
-        editButton.className = 'btn-editar';
-        editButton.innerHTML = '✏️'; // Emoji de lápiz
-        editButton.setAttribute('data-id', pelicula.id);
-        editButton.setAttribute('aria-label', `Editar ${pelicula.nombre}`);
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'item-pelicula-actions';
 
+        // Botón de Editar
+        const editButton = document.createElement('button');
+        editButton.className = 'btn-icono btn-editar';
+        editButton.innerHTML = '<i class="fa-solid fa-pencil"></i>';
+        editButton.setAttribute('aria-label', `Editar ${pelicula.nombre}`);
         editButton.addEventListener('click', () => iniciarEdicion(pelicula.id));
+
+        // Botón de Eliminar
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'btn-icono btn-eliminar';
+        deleteButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+        deleteButton.setAttribute('aria-label', `Eliminar ${pelicula.nombre}`);
+        deleteButton.addEventListener('click', () => eliminarPelicula(pelicula.id));
         
+        actionsDiv.appendChild(editButton);
+        actionsDiv.appendChild(deleteButton);
         itemDiv.appendChild(itemName);
-        itemDiv.appendChild(editButton);
+        itemDiv.appendChild(actionsDiv);
         listaContainer.appendChild(itemDiv);
     });
 }
 
 /**
  * Prepara el formulario para editar un ítem.
- * @param {string} id - El ID de la película a editar.
  */
 function iniciarEdicion(id) {
     const peliculaAEditar = peliculasLocales.find(p => p.id === id);
@@ -54,7 +66,6 @@ function iniciarEdicion(id) {
     enModoEdicion = true;
     idEnEdicion = id;
 
-    // Llenar el formulario con los datos existentes
     form.id.value = peliculaAEditar.id;
     form.nombre.value = peliculaAEditar.nombre;
     form.año.value = peliculaAEditar.año;
@@ -63,8 +74,7 @@ function iniciarEdicion(id) {
     form.portada.value = peliculaAEditar.portada;
     form.link.value = peliculaAEditar.link;
 
-    // Cambiar el botón a "Actualizar"
-    submitButton.textContent = 'Actualizar';
+    submitButton.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar';
     submitButton.classList.add('actualizar');
 
     form.scrollIntoView({ behavior: 'smooth' });
@@ -72,17 +82,36 @@ function iniciarEdicion(id) {
 }
 
 /**
- * Resetea el formulario al estado inicial para añadir un nuevo ítem.
+ * Elimina una película de la lista.
+ */
+function eliminarPelicula(id) {
+    const peliculaAEliminar = peliculasLocales.find(p => p.id === id);
+    if (!peliculaAEliminar) return;
+
+    // Pedimos confirmación al usuario
+    const confirmar = confirm(`¿Estás seguro de que quieres eliminar "${peliculaAEliminar.nombre}"?`);
+
+    if (confirmar) {
+        peliculasLocales = peliculasLocales.filter(p => p.id !== id);
+        
+        // Actualizamos la vista
+        renderizarLista();
+        const codigoGenerado = generarCodigo(peliculasLocales);
+        outputCodeElement.textContent = codigoGenerado;
+        outputContainer.style.display = 'block';
+        resetearFormulario(); // Para asegurar que el siguiente ID es correcto
+    }
+}
+
+/**
+ * Resetea el formulario al estado inicial.
  */
 function resetearFormulario() {
     enModoEdicion = false;
     idEnEdicion = null;
-    
     form.reset();
-    
-    submitButton.textContent = 'Añadir';
+    submitButton.innerHTML = '<i class="fa-solid fa-plus"></i> Añadir';
     submitButton.classList.remove('actualizar');
-    
     actualizarSiguienteId();
     nombreInput.focus();
 }
@@ -91,13 +120,19 @@ function resetearFormulario() {
  * Calcula el siguiente ID disponible.
  */
 function actualizarSiguienteId() {
-    const ultimoItem = peliculasLocales.length > 0 ? peliculasLocales[peliculasLocales.length - 1] : { id: '0000' };
+    if (peliculasLocales.length === 0) {
+        idInput.value = '0001';
+        return;
+    }
+    // Ordenamos por ID para asegurar que el último es el más alto
+    peliculasLocales.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+    const ultimoItem = peliculasLocales[peliculasLocales.length - 1];
     const siguienteIdNumero = parseInt(ultimoItem.id, 10) + 1;
     idInput.value = String(siguienteIdNumero).padStart(4, '0');
 }
 
 /**
- * Genera el string de código del archivo `data.js` a partir de la lista.
+ * Genera el string de código del archivo `data.js`.
  */
 function generarCodigo(listaCompleta) {
     let codigo = 'const peliculas = [\n';
@@ -115,14 +150,13 @@ function generarCodigo(listaCompleta) {
     return codigo;
 }
 
-// --- EVENTO PRINCIPAL DEL FORMULARIO ---
+// --- EVENTOS ---
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(form);
 
     if (enModoEdicion) {
-        // --- LÓGICA DE ACTUALIZACIÓN ---
         const peliculaActualizada = {
             id: idEnEdicion,
             nombre: formData.get('nombre'),
@@ -137,7 +171,6 @@ form.addEventListener('submit', (event) => {
             peliculasLocales[index] = peliculaActualizada;
         }
     } else {
-        // --- LÓGICA DE AÑADIR ---
         const nuevaPelicula = {
             id: formData.get('id'),
             nombre: formData.get('nombre'),
@@ -150,7 +183,6 @@ form.addEventListener('submit', (event) => {
         peliculasLocales.push(nuevaPelicula);
     }
     
-    // Pasos finales comunes para añadir y actualizar
     const codigoGenerado = generarCodigo(peliculasLocales);
     outputCodeElement.textContent = codigoGenerado;
     outputContainer.style.display = 'block';
@@ -161,8 +193,20 @@ form.addEventListener('submit', (event) => {
     outputContainer.scrollIntoView({ behavior: 'smooth' });
 });
 
+copyButton.addEventListener('click', () => {
+    navigator.clipboard.writeText(outputCodeElement.textContent).then(() => {
+        // Feedback para el usuario
+        const originalText = copyButton.innerHTML;
+        copyButton.innerHTML = '<i class="fa-solid fa-check"></i> ¡Copiado!';
+        setTimeout(() => {
+            copyButton.innerHTML = originalText;
+        }, 2000); // Vuelve al texto original después de 2 segundos
+    }).catch(err => {
+        console.error('Error al copiar el texto: ', err);
+    });
+});
+
 // --- EJECUCIÓN INICIAL ---
-// Al cargar la página, se muestra la lista y se prepara el formulario.
 document.addEventListener('DOMContentLoaded', () => {
     renderizarLista();
     resetearFormulario();
