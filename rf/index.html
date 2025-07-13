@@ -11,17 +11,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <main>
         <h1><i class="fa-solid fa-database"></i> Panel de Control BD</h1>
         <form id="add-form">
             <div class="form-group">
-                [span_0](start_span)<label for="id">ID (Automático)</label>[span_0](end_span)
+                <label for="id">ID (Automático)</label>
                 <input type="text" id="id" name="id" readonly>
             </div>
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                [span_1](start_span)<input type="text" id="nombre" name="nombre" required>[span_1](end_span)
+                <input type="text" id="nombre" name="nombre" required>
             </div>
             <div class="form-group">
                 <label for="año">Año</label>
@@ -29,25 +28,25 @@
             </div>
             <div class="form-group">
                 <label for="categoria">Categoría</label>
-                [span_2](start_span)<input type="text" id="categoria" name="categoria" required>[span_2](end_span)
+                <input type="text" id="categoria" name="categoria" required>
             </div>
             <div class="form-group">
                 <label for="tipo">Tipo</label>
                 <select id="tipo" name="tipo" required>
                     <option value="Película">Película</option>
-                    [span_3](start_span)<option value="Serie">Serie</option>[span_3](end_span)
+                    <option value="Serie">Serie</option>
                     <option value="K-Drama">K-Drama</option>
                 </select>
             </div>
             <div class="form-group">
-                [span_4](start_span)<label for="portada">URL de la Portada</label>[span_4](end_span)
+                <label for="portada">URL de la Portada</label>
                 <input type="url" id="portada" name="portada" required>
             </div>
             <div class="form-group">
                 <label for="link">URL del Link</label>
                 <input type="url" id="link" name="link" required>
             </div>
-            [span_5](start_span)<button type="submit"><i class="fa-solid fa-plus"></i> Añadir</button>[span_5](end_span)
+            <button type="submit"><i class="fa-solid fa-plus"></i> Añadir</button>
         </form>
 
         <div id="output-container" style="display: none;">
@@ -60,9 +59,8 @@
         </div>
 
         <hr>
-        [span_6](start_span)<h2><i class="fa-solid fa-list-ul"></i> Títulos Existentes</h2>[span_6](end_span)
-        <div id="lista-container">
-            </div>
+        <h2><i class="fa-solid fa-list-ul"></i> Títulos Existentes</h2>
+        <div id="lista-container"></div>
     </main>
 
     <script src="app.js" type="module"></script>
