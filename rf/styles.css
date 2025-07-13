@@ -1,213 +1,166 @@
-import { peliculas } from 'https://moc3pnj.github.io/bd/data.js';
-
-// --- ELEMENTOS DEL DOM ---
-const form = document.getElementById('add-form');
-const idInput = document.getElementById('id');
-const nombreInput = document.getElementById('nombre');
-const outputContainer = document.getElementById('output-container');
-const outputCodeElement = document.getElementById('output-code');
-const submitButton = form.querySelector('button[type="submit"]');
-const listaContainer = document.getElementById('lista-container');
-const copyButton = document.getElementById('copy-button');
-
-// --- ESTADO DE LA APLICACIÓN ---
-let peliculasLocales = [...peliculas];
-let enModoEdicion = false;
-let idEnEdicion = null;
-
-// --- FUNCIONES ---
-
-/**
- * Muestra la lista de películas en el DOM, añadiendo botones de editar y eliminar.
- */
-function renderizarLista() {
-    listaContainer.innerHTML = '';
-
-    peliculasLocales.forEach(pelicula => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'item-pelicula';
-
-        const itemName = document.createElement('span');
-        itemName.className = 'item-pelicula-info';
-        itemName.textContent = `${pelicula.nombre} (${pelicula.año})`;
-        
-        const actionsDiv = document.createElement('div');
-        actionsDiv.className = 'item-pelicula-actions';
-
-        // Botón de Editar
-        const editButton = document.createElement('button');
-        editButton.className = 'btn-icono btn-editar';
-        editButton.innerHTML = '<i class="fa-solid fa-pencil"></i>';
-        editButton.setAttribute('aria-label', `Editar ${pelicula.nombre}`);
-        editButton.addEventListener('click', () => iniciarEdicion(pelicula.id));
-
-        // Botón de Eliminar
-        const deleteButton = document.createElement('button');
-        deleteButton.className = 'btn-icono btn-eliminar';
-        deleteButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-        deleteButton.setAttribute('aria-label', `Eliminar ${pelicula.nombre}`);
-        deleteButton.addEventListener('click', () => eliminarPelicula(pelicula.id));
-        
-        actionsDiv.appendChild(editButton);
-        actionsDiv.appendChild(deleteButton);
-        itemDiv.appendChild(itemName);
-        itemDiv.appendChild(actionsDiv);
-        listaContainer.appendChild(itemDiv);
-    });
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
 }
 
-/**
- * Prepara el formulario para editar un ítem.
- */
-function iniciarEdicion(id) {
-    const peliculaAEditar = peliculasLocales.find(p => p.id === id);
-    if (!peliculaAEditar) return;
-
-    enModoEdicion = true;
-    idEnEdicion = id;
-
-    form.id.value = peliculaAEditar.id;
-    form.nombre.value = peliculaAEditar.nombre;
-    form.año.value = peliculaAEditar.año;
-    form.categoria.value = peliculaAEditar.categoria;
-    form.tipo.value = peliculaAEditar.tipo;
-    form.portada.value = peliculaAEditar.portada;
-    form.link.value = peliculaAEditar.link;
-
-    submitButton.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar';
-    submitButton.classList.add('actualizar');
-
-    form.scrollIntoView({ behavior: 'smooth' });
-    nombreInput.focus();
+main {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
 }
 
-/**
- * Elimina una película de la lista.
- */
-function eliminarPelicula(id) {
-    const peliculaAEliminar = peliculasLocales.find(p => p.id === id);
-    if (!peliculaAEliminar) return;
-
-    // Pedimos confirmación al usuario
-    const confirmar = confirm(`¿Estás seguro de que quieres eliminar "${peliculaAEliminar.nombre}"?`);
-
-    if (confirmar) {
-        peliculasLocales = peliculasLocales.filter(p => p.id !== id);
-        
-        // Actualizamos la vista
-        renderizarLista();
-        const codigoGenerado = generarCodigo(peliculasLocales);
-        outputCodeElement.textContent = codigoGenerado;
-        outputContainer.style.display = 'block';
-        resetearFormulario(); // Para asegurar que el siguiente ID es correcto
-    }
+h1 {
+    text-align: center;
+    color: #1e88e5;
+    margin-bottom: 25px;
 }
 
-/**
- * Resetea el formulario al estado inicial.
- */
-function resetearFormulario() {
-    enModoEdicion = false;
-    idEnEdicion = null;
-    form.reset();
-    submitButton.innerHTML = '<i class="fa-solid fa-plus"></i> Añadir';
-    submitButton.classList.remove('actualizar');
-    actualizarSiguienteId();
-    nombreInput.focus();
+h2 {
+    text-align: center;
+    color: #43a047;
+    font-size: 1.2em;
+    margin-top: 30px;
 }
 
-/**
- * Calcula el siguiente ID disponible.
- */
-function actualizarSiguienteId() {
-    if (peliculasLocales.length === 0) {
-        idInput.value = '0001';
-        return;
-    }
-    // Ordenamos por ID para asegurar que el último es el más alto
-    peliculasLocales.sort((a, b) => parseInt(a.id) - parseInt(b.id));
-    const ultimoItem = peliculasLocales[peliculasLocales.length - 1];
-    const siguienteIdNumero = parseInt(ultimoItem.id, 10) + 1;
-    idInput.value = String(siguienteIdNumero).padStart(4, '0');
+.form-group {
+    margin-bottom: 18px;
 }
 
-/**
- * Genera el string de código del archivo `data.js`.
- */
-function generarCodigo(listaCompleta) {
-    let codigo = 'const peliculas = [\n';
-    listaCompleta.forEach((item, index) => {
-        const itemString = JSON.stringify(item, null, 2).replace(/"([^"]+)":/g, '$1:');
-        codigo += `  ${itemString}`;
-        if (index < listaCompleta.length - 1) {
-            codigo += ',\n';
-        } else {
-            codigo += '\n';
-        }
-    });
-    codigo += '];\n\n';
-    codigo += 'export { peliculas };';
-    return codigo;
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
 }
 
-// --- EVENTOS ---
+input[type="text"],
+input[type="number"],
+input[type="url"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
 
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const formData = new FormData(form);
+input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    font-weight: bold;
+}
 
-    if (enModoEdicion) {
-        const peliculaActualizada = {
-            id: idEnEdicion,
-            nombre: formData.get('nombre'),
-            año: parseInt(formData.get('año'), 10),
-            categoria: formData.get('categoria'),
-            tipo: formData.get('tipo'),
-            portada: formData.get('portada'),
-            link: formData.get('link'),
-        };
-        const index = peliculasLocales.findIndex(p => p.id === idEnEdicion);
-        if (index !== -1) {
-            peliculasLocales[index] = peliculaActualizada;
-        }
-    } else {
-        const nuevaPelicula = {
-            id: formData.get('id'),
-            nombre: formData.get('nombre'),
-            año: parseInt(formData.get('año'), 10),
-            categoria: formData.get('categoria'),
-            tipo: formData.get('tipo'),
-            portada: formData.get('portada'),
-            link: formData.get('link'),
-        };
-        peliculasLocales.push(nuevaPelicula);
-    }
-    
-    const codigoGenerado = generarCodigo(peliculasLocales);
-    outputCodeElement.textContent = codigoGenerado;
-    outputContainer.style.display = 'block';
-    
-    renderizarLista();
-    resetearFormulario();
-    
-    outputContainer.scrollIntoView({ behavior: 'smooth' });
-});
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #1e88e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-copyButton.addEventListener('click', () => {
-    navigator.clipboard.writeText(outputCodeElement.textContent).then(() => {
-        // Feedback para el usuario
-        const originalText = copyButton.innerHTML;
-        copyButton.innerHTML = '<i class="fa-solid fa-check"></i> ¡Copiado!';
-        setTimeout(() => {
-            copyButton.innerHTML = originalText;
-        }, 2000); // Vuelve al texto original después de 2 segundos
-    }).catch(err => {
-        console.error('Error al copiar el texto: ', err);
-    });
-});
+button:hover {
+    background-color: #1565c0;
+}
 
-// --- EJECUCIÓN INICIAL ---
-document.addEventListener('DOMContentLoaded', () => {
-    renderizarLista();
-    resetearFormulario();
-});
+#output-container {
+    margin-top: 30px;
+}
+
+pre {
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: 20px;
+    border-radius: 8px;
+    white-space: pre-wrap; /* Para que el texto no se salga del contenedor */
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+    max-height: 400px;
+    overflow-y: auto;
+}
+/* Separador visual */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #ddd;
+    margin: 40px 0;
+}
+
+h2 {
+    text-align: center;
+    color: #43a047;
+    font-size: 1.2em;
+    margin-top: 30px;
+}
+
+/* Contenedor de la lista de títulos */
+#lista-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Estilo para cada elemento de la lista */
+.item-pelicula {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    transition: box-shadow 0.2s ease;
+}
+
+.item-pelicula:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.item-pelicula span {
+    font-weight: 500;
+    color: #333;
+}
+
+/* Botón de editar (lápiz) */
+.btn-editar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3em;
+    color: #555;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-editar:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+/* Clase para el botón principal cuando está en modo "Actualizar" */
+button.actualizar {
+    background-color: #43a047; /* Color verde para actualizar */
+}
+
+button.actualizar:hover {
+    background-color: #388e3c;
+}
