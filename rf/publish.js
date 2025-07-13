@@ -3,10 +3,10 @@ const publishButton = document.getElementById('publish-button');
 const outputCodeElementForPublish = document.getElementById('output-code');
 
 // --- CONSTANTES DE LA API DE GITHUB ---
-const GITHUB_API_URL = 'https://api.github.com/repos/moc3pnj/bd/contents/data.js';
+const GITHUB_API_URL = 'https://api.github.com/repos/MOC3PNJ/moc3pnj.github.io/contents/bd/data.js';
 const REPO_OWNER = 'moc3pnj';
-const REPO_NAME = 'bd';
-const FILE_PATH = 'data.js';
+const REPO_NAME = 'moc3pnj.github.io';
+const FILE_PATH = 'bd/data.js';
 
 // --- EVENTO DEL BOTÓN PUBLICAR ---
 publishButton.addEventListener('click', async () => {
