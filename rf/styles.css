@@ -164,3 +164,24 @@ button.actualizar {
 button.actualizar:hover {
     background-color: #388e3c;
 }
+/* Contenedor para botones de output para que estén en línea */
+.output-actions {
+    display: flex;
+    gap: 10px; /* Espacio entre botones */
+    margin-bottom: 15px;
+}
+
+/* Para que los botones dentro del contenedor no ocupen todo el ancho */
+.output-actions button {
+    width: auto;
+    flex-grow: 1; /* Para que ambos botones ocupen el mismo espacio */
+}
+
+/* Estilo específico para el botón de publicar */
+button.publish {
+    background-color: #f0ad4e; /* Un color naranja para diferenciar */
+}
+
+button.publish:hover {
+    background-color: #ec971f;
+}
