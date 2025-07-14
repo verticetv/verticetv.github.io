@@ -1,183 +1,84 @@
-/* --- Variables y Estilos Globales --- */
-:root {
-    --primary-font: 'Roboto', sans-serif;
-    --background-color: null;
-    --text-color: #ffffff;
-    -[span_0](start_span)-accent-color: #e50914;[span_0](end_span)
-    -[span_1](start_span)-accent-hover-color: #f40612;[span_1](end_span)
-    -[span_2](start_span)-shadow-color: rgba(0, 0, 0, 0.75);[span_2](end_span)
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body, html {
-    [span_3](start_span)height: 100%;[span_3](end_span)
-    font-family: var(--primary-font);
-    background-color: var(--background-color);
-    color: var(--text-color);
-    [span_4](start_span)overflow: hidden;[span_4](end_span)
-}
-
-/* --- Fondo Cinematográfico y Superposición --- */
-.background-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    [span_5](start_span)height: 100%;[span_5](end_span)
-    z-index: -2;
-    background-image: url('/img/4DPM42K2SNBQJIFZE7AKFJNOC4.jpg');
-    background-size: cover;
-    background-position: center;
-    /* La animación de zoom ha sido eliminada como solicitaste */
-}
-
-.background-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    [span_6](start_span)z-index: -1;[span_6](end_span)
-    background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
-}
-
-/* --- Contenedor Principal y Layout --- */
-.content-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    [span_7](start_span)height: 100%;[span_7](end_span)
-    padding: 20px;
-    text-align: center;
-    gap: 50px; /* Espacio entre la cabecera y el botón */
-}
-
-/* --- Cabecera Centrada con Logo y Animación --- */
-.main-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap; /* Para que se ajuste en móviles */
-    gap: 15px; /* Espacio entre el logo y la animación */
+/* styles.css */
+body {
+  margin: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
 }
 
 .logo {
-    font-size: 2.5rem; /* Tamaño ajustado */
-    font-weight: 900;
-    text-transform: uppercase;
+  margin-top: 20px;
+  width: 220px;
 }
 
-/* --- Estilos para la Animación de Textos (Ajustados para la cabecera) --- */
-.tagline-wrapper {
-    display: flex;
-    [span_8](start_span)align-items: center;[span_8](end_span)
-    font-size: 2.5rem; /* Mismo tamaño que el logo para coherencia */
-    font-weight: 700;
-    [span_9](start_span)text-shadow: 0 4px 20px var(--shadow-color);[span_9](end_span)
+.intro {
+  margin: 30px auto;
+  max-width: 600px;
+  padding: 0 20px;
 }
 
-.static-text {
-    margin-right: 15px;
+.download {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s;
 }
 
-.dropping-texts {
-    position: relative;
-    height: 60px; /* Altura para contener las palabras */
-    [span_10](start_span)text-align: left;[span_10](end_span)
+.download:hover {
+  background-color: #0056b3;
 }
 
-.dropping-texts > div {
-    font-size: 0px;
-    opacity: 0;
-    margin-left: -30px;
-    position: absolute;
-    font-weight: 900;
-    color: #fff;
+.download i {
+  margin-right: 8px;
 }
 
-/* Keyframes para la animación (Sin cambios) */
-@keyframes roll {
-    0% { font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(-25deg); }
-    3% { opacity: 1; transform: rotate(0deg); }
-    5% { font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; }
-    20% { font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; transform: rotate(0deg); }
-    27% { font-size: 0px; opacity: 0.5; margin-left: 20px; margin-top: 100px; }
-    100% { font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(15deg); }
+.arrow {
+  font-size: 30px;
+  margin: 25px auto;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.3s;
 }
 
-@keyframes roll-last {
-    0% { font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(-25deg); }
-    3% { opacity: 1; transform: rotate(0deg); }
-    5% { font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; }
-    30% { font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; transform: rotate(0deg); }
-    37% { font-size: 800px; opacity: 0; margin-left: -600px; margin-top: -400px; }
-    100% { font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(15deg); }
+.arrow:hover {
+  transform: scale(1.2);
 }
 
-/* --- Botón de Descarga con Nueva Animación --- */
-.cta-button {
-    display: inline-flex;
-    [span_11](start_span)align-items: center;[span_11](end_span)
-    justify-content: center;
-    padding: 18px 40px;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-color);
-    background-color: var(--accent-color);
-    border: none;
-    border-radius: 5px;
-    [span_12](start_span)text-decoration: none;[span_12](end_span)
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+.platform-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 20px;
 }
 
-.cta-button:hover {
-    background-color: var(--accent-hover-color);
-    transform: scale(1.05);
-    box-shadow: 0 6px 40px rgba(229, 9, 20, 0.4);
+.hidden {
+  display: none;
 }
 
-.cta-button .icon {
-    margin-right: 15px;
-    [span_13](start_span)font-size: 1.6rem;[span_13](end_span)
-    /* Aplicando la nueva animación de descarga */
-    animation: download-bounce 1.5s ease-in-out infinite;
+button.android,
+button.windows,
+button.iphone {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-/* Keyframes para la animación del icono de descarga */
-@keyframes download-bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-8px);
-    }
+button.android:hover,
+button.windows:hover,
+button.iphone:hover {
+  background-color: #0056b3;
 }
 
-/* --- Media Queries para Responsividad --- */
-@media (max-width: 768px) {
-    .main-header {
-        flex-direction: column; /* Apila el logo y la animación */
-        gap: 10px;
-    }
-    
-    .logo, .tagline-wrapper {
-        [span_14](start_span)font-size: 1.8rem;[span_14](end_span)
-    }
-
-    .dropping-texts {
-        [span_15](start_span)height: 40px;[span_15](end_span)
-    }
-    
-    .cta-button {
-        padding: 15px 30px;
-        [span_16](start_span)font-size: 1.1rem;[span_16](end_span)
-    }
+button i {
+  margin-right: 8px;
 }
