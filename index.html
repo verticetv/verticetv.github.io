@@ -1,42 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CINE AR PLAY</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>CINE AR PLAY</title>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo Cine AR Play" class="logo" />
-  </header>
-
-  <main>
-    <section class="intro">
-      <h1>CINE AR PLAY</h1>
-      <p>
-        Plataforma gratuita de video a demanda para ver contenidos nacionales donde y cuando quieras.
-      </p>
-      <p>
-        Películas, series, documentales, cortos y clásicos desde cualquier dispositivo.
-      </p>
-      <button class="download">
-        <i class="fas fa-download"></i> Descargar
-      </button>
-    </section>
-
-    <div class="arrow" id="toggleButtons">
-      <i class="fas fa-chevron-down"></i>
+    <div class="container">
+        <h1 class="title">CINE AR</h1>
+        <h2 class="subtitle">PLAY</h2>
+        <p class="description">CINE AR PLAY es la plataforma de videos que brinda calidad a todos los contenidos nacionales donde quieras, cuando quieras.</p>
+        <button class="download-btn">
+            <i class="fas fa-download"></i> Descargar
+        </button>
+        <div class="arrow" id="arrow">
+            &#9660;
+        </div>
+        <div class="download-options" id="download-options">
+            <button class="option-btn">
+                <i class="fab fa-android"></i> Android
+            </button>
+            <button class="option-btn">
+                <i class="fab fa-windows"></i> Windows
+            </button>
+            <button class="option-btn">
+                <i class="fab fa-apple"></i> iPhone
+            </button>
+        </div>
     </div>
-
-    <div class="platform-buttons hidden" id="platformButtons">
-      <button class="android"><i class="fab fa-android"></i> Android</button>
-      <button class="windows"><i class="fab fa-windows"></i> Windows</button>
-      <button class="iphone"><i class="fab fa-apple"></i> iPhone</button>
-    </div>
-  </main>
-
-  <script src="script.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
