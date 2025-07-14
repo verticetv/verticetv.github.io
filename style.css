@@ -3,9 +3,9 @@
     --primary-font: 'Roboto', sans-serif;
     --background-color: null;
     --text-color: #ffffff;
-    --accent-color: #e50914;
-    --accent-hover-color: #f40612;
-    --shadow-color: rgba(0, 0, 0, 0.75);
+    -[span_0](start_span)-accent-color: #e50914;[span_0](end_span)
+    -[span_1](start_span)-accent-hover-color: #f40612;[span_1](end_span)
+    -[span_2](start_span)-shadow-color: rgba(0, 0, 0, 0.75);[span_2](end_span)
 }
 
 * {
@@ -15,11 +15,11 @@
 }
 
 body, html {
-    height: 100%;
+    [span_3](start_span)height: 100%;[span_3](end_span)
     font-family: var(--primary-font);
     background-color: var(--background-color);
     color: var(--text-color);
-    overflow: hidden;
+    [span_4](start_span)overflow: hidden;[span_4](end_span)
 }
 
 /* --- Fondo Cinematográfico y Superposición --- */
@@ -28,13 +28,12 @@ body, html {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    [span_5](start_span)height: 100%;[span_5](end_span)
     z-index: -2;
-    /* IMAGEN DE FONDO RESTAURADA */
     background-image: url('/img/4DPM42K2SNBQJIFZE7AKFJNOC4.jpg');
     background-size: cover;
     background-position: center;
-    animation: zoom-in 25s ease-in-out infinite;
+    /* La animación de zoom ha sido eliminada como solicitaste */
 }
 
 .background-overlay {
@@ -43,14 +42,8 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    [span_6](start_span)z-index: -1;[span_6](end_span)
     background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
-}
-
-@keyframes zoom-in {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
 }
 
 /* --- Contenedor Principal y Layout --- */
@@ -59,39 +52,34 @@ body, html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    [span_7](start_span)height: 100%;[span_7](end_span)
     padding: 20px;
     text-align: center;
+    gap: 50px; /* Espacio entre la cabecera y el botón */
 }
 
+/* --- Cabecera Centrada con Logo y Animación --- */
 .main-header {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Para que se ajuste en móviles */
+    gap: 15px; /* Espacio entre el logo y la animación */
 }
 
 .logo {
-    font-size: 1.8rem;
+    font-size: 2.5rem; /* Tamaño ajustado */
     font-weight: 900;
     text-transform: uppercase;
 }
 
-.hero-section {
-    width: 100%;
-    max-width: 900px;
-}
-
-/* --- ESTILOS PARA LA NUEVA ANIMACIÓN "DROPPING TEXTS" --- */
+/* --- Estilos para la Animación de Textos (Ajustados para la cabecera) --- */
 .tagline-wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3.2rem;
+    [span_8](start_span)align-items: center;[span_8](end_span)
+    font-size: 2.5rem; /* Mismo tamaño que el logo para coherencia */
     font-weight: 700;
-    margin-bottom: 50px;
-    min-height: 120px;
-    flex-wrap: wrap; /* Para que se ajuste en móviles */
-    text-shadow: 0 4px 20px var(--shadow-color);
+    [span_9](start_span)text-shadow: 0 4px 20px var(--shadow-color);[span_9](end_span)
 }
 
 .static-text {
@@ -99,9 +87,9 @@ body, html {
 }
 
 .dropping-texts {
-    display: inline-block;
-    height: 50px; /* Altura para contener las palabras */
-    text-align: left;
+    position: relative;
+    height: 60px; /* Altura para contener las palabras */
+    [span_10](start_span)text-align: left;[span_10](end_span)
 }
 
 .dropping-texts > div {
@@ -110,58 +98,32 @@ body, html {
     margin-left: -30px;
     position: absolute;
     font-weight: 900;
-    color: #fff; /* Color destacado para la palabra animada */
+    color: #fff;
 }
 
-/* Keyframes para la animación de caída */
+/* Keyframes para la animación (Sin cambios) */
 @keyframes roll {
-    0% {
-        font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(-25deg);
-    }
-    3% {
-        opacity: 1; transform: rotate(0deg);
-    }
-    5% {
-        font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px;
-    }
-    20% {
-        font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; transform: rotate(0deg);
-    }
-    27% {
-        font-size: 0px; opacity: 0.5; margin-left: 20px; margin-top: 100px;
-    }
-    100% {
-        font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(15deg);
-    }
+    0% { font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(-25deg); }
+    3% { opacity: 1; transform: rotate(0deg); }
+    5% { font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; }
+    20% { font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; transform: rotate(0deg); }
+    27% { font-size: 0px; opacity: 0.5; margin-left: 20px; margin-top: 100px; }
+    100% { font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(15deg); }
 }
 
-/* Keyframes para la última palabra (efecto de salida diferente) */
 @keyframes roll-last {
-    0% {
-        font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(-25deg);
-    }
-    3% {
-        opacity: 1; transform: rotate(0deg);
-    }
-    5% {
-        font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px;
-    }
-    30% { /* Permanece visible más tiempo */
-        font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; transform: rotate(0deg);
-    }
-    37% { /* Efecto de salida dramático */
-        font-size: 800px; opacity: 0; margin-left: -600px; margin-top: -400px;
-    }
-    100% {
-        font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(15deg);
-    }
+    0% { font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(-25deg); }
+    3% { opacity: 1; transform: rotate(0deg); }
+    5% { font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; }
+    30% { font-size: inherit; opacity: 1; margin-left: 0px; margin-top: 0px; transform: rotate(0deg); }
+    37% { font-size: 800px; opacity: 0; margin-left: -600px; margin-top: -400px; }
+    100% { font-size: 0px; opacity: 0; margin-left: -30px; margin-top: 0px; transform: rotate(15deg); }
 }
 
-
-/* --- Botón de Descarga --- */
+/* --- Botón de Descarga con Nueva Animación --- */
 .cta-button {
     display: inline-flex;
-    align-items: center;
+    [span_11](start_span)align-items: center;[span_11](end_span)
     justify-content: center;
     padding: 18px 40px;
     font-size: 1.3rem;
@@ -170,11 +132,10 @@ body, html {
     background-color: var(--accent-color);
     border: none;
     border-radius: 5px;
-    text-decoration: none;
+    [span_12](start_span)text-decoration: none;[span_12](end_span)
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-    transform: scale(1);
 }
 
 .cta-button:hover {
@@ -185,31 +146,38 @@ body, html {
 
 .cta-button .icon {
     margin-right: 15px;
-    font-size: 1.6rem;
+    [span_13](start_span)font-size: 1.6rem;[span_13](end_span)
+    /* Aplicando la nueva animación de descarga */
+    animation: download-bounce 1.5s ease-in-out infinite;
+}
+
+/* Keyframes para la animación del icono de descarga */
+@keyframes download-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 /* --- Media Queries para Responsividad --- */
 @media (max-width: 768px) {
-    .logo {
-        font-size: 1.5rem;
+    .main-header {
+        flex-direction: column; /* Apila el logo y la animación */
+        gap: 10px;
     }
     
-    .tagline-wrapper {
-        font-size: 1.8rem;
-        flex-direction: column; /* Apila el texto en móviles */
-    }
-
-    .static-text {
-        margin-right: 0;
-        margin-bottom: 10px;
+    .logo, .tagline-wrapper {
+        [span_14](start_span)font-size: 1.8rem;[span_14](end_span)
     }
 
     .dropping-texts {
-        height: 40px;
+        [span_15](start_span)height: 40px;[span_15](end_span)
     }
     
     .cta-button {
         padding: 15px 30px;
-        font-size: 1.1rem;
+        [span_16](start_span)font-size: 1.1rem;[span_16](end_span)
     }
 }
