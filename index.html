@@ -1,39 +1,288 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vértice TV - Tu Universo de Entretenimiento</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
+<!--[if lt IE 7]>      <html ng-app="incaaUiApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html ng-app="incaaUiApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html ng-app="incaaUiApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app="incaaUiApp" ng-controller="MainCtrl" prefix="og: http://ogp.me/ns#" lang="es-AR" xml:lang="es-AR"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
 
-    <div class="background-overlay"></div>
-    <div class="background-image"></div>
+    <!-- Cargo el serviceWorker para el banner que sugiere instalar las apps -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }).catch(function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    </script>
 
-    <div class="content-wrapper">
-        <header class="main-header">
-            <h1 class="logo">Vértice TV</h1>
-            <div class="tagline-wrapper">
-                <span class="static-text">es:</span>
-                <div class="dropping-texts" id="dropping-texts-container">
-                    </div>
-            </div>
-        </header>
+    <!-- Facebook Pixel Code -->
+    <script>
+    if(typeof fbq === 'undefined') {
+    		!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    		n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    		n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    		t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    		document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    		fbq('init', '287095341720741');
+      }
+    </script>
 
-        <main class="hero-section">
-            <a href="/ruta/a/tu/app.apk" download="VerticeTV.apk" class="cta-button" id="download-link">
-                <i class="fas fa-download icon"></i>
-                Descargar Ahora
-            </a>
-        </main>
-    </div>
+    <!-- Google Analytics -->
+<!--     <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    <script src="script.js"></script>
+    ga('create', 'UA-117744912-1', 'auto');
+    </script> -->
+    <!-- End Google Analytics -->
 
-</body>
+    <!-- DO NOT MODIFY -->
+    <!-- End Facebook Pixel Code -->
+
+    <!-- Google Pixel Code -->
+    <!--
+    <script>
+    if(typeof ga === 'undefined') {
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-105273575-1', 'auto');
+    }
+    </script>
+    -->
+    <!-- End Google Pixel Code -->
+
+
+    <!-- Google Tag Manager -->
+    <!--
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K44VLF4');</script>
+    -->
+    <!-- End Google Tag Manager (noscript) -->
+
+
+    <!-- <meta charset="utf-8"> -->
+
+    <!-- include: './config/.tmp/seo/seo.html' -->
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+    <meta name="theme-color" content="#1A1A1A"/>
+    <meta name="msapplication-navbutton-color" content="#1A1A1A"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <!-- para ajax search crawling -->
+    <meta name="fragment" content="!">
+    <!-- search crawling -->
+    <!-- for Google -->
+    <title ng-bind-template="{{::app}} - {{ Page.title() }}">Cine.ar Play</title>
+    <meta name="title" ng-bind-content="{{::app}} - {{ Page.title() }}">
+    <meta name="application-name" ng-bind-content="{{::app}}">
+    <meta name="description" ng-attr-content="{{ Page.metaDescription() }}" content="Cine.ar Play es la Plataforma de video a demanda de Contenidos Audiovisuales Nacionales, desarrollada en el país, para que veas las películas, series y cortos, cuando quieras y donde quieras.">
+    <meta name="keywords" content="Cine.ar, peliculas,hd,online, odeon, incaa, cortometrajes, largometrajes,series,cortos,argentina, cine,arsat">
+    <link rel="alternate" hreflang="es" href="play.cine.ar" />
+    <meta name="author" content="INCAA - ARSAT" />
+
+    <!-- for Facebook -->
+    <meta property="article:publisher" ng-bind-content="{{::facebookUrl}}" content="https://www.facebook.com/Cine.ArPlay/"/>
+    <meta property="og:site_name" ng-bind-content="{{::app}}" content="Cine.ArPlay">
+    <meta property="og:title" ng-attr-content="{{::app}} - {{ Page.title() }}" ng-bind-content="{{::app}}">
+    <meta property="og:url" ng-attr-content="{{ Page.metaUrl() }}" content="https://www.cine.ar"/>
+    <meta property="og:description" ng-attr-content="{{ Page.metaDescription() }}" content="Cine.ar Play es la Plataforma de video a demanda de Contenidos Audiovisuales Nacionales, desarrollada en el país, para que veas las películas, series y cortos, cuando quieras y donde quieras.">
+
+    <meta property="og:image" ng-attr-content="{{ Page.metaImage() }}" content="play.cine.ar/apple-touch-icon-180x180.png" />
+    <meta property="og:image:secure_url" ng-attr-content="{{ Page.metaImage() }}" content="play.cine.ar/apple-touch-icon-180x180.png"/>
+    <meta property="og:image:width" content="180"/>
+    <meta property="og:image:height" content="180"/>
+
+    <meta property="og:locale" content="es_LA">
+    <meta property="og:type" content="movie">
+
+    <meta property="fb:app_id" content="903296146429102" />
+    <meta property="fb:admins" content="100009399080527" />
+
+
+    <!-- https://moz.com/blog/meta-data-templates-123 -->
+    <!-- for Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@CINEARPLAY"/>
+    <meta name="twitter:creator" content="@CINEARPLAY">
+    <meta name="twitter:title" ng-attr-content="{{::app}} - {{ Page.title() }}" ng-bind-content="{{::app}}"/>
+    <meta name="twitter:description" ng-attr-content="{{ Page.metaDescription() }}" content="Odeón es la Plataforma de video a demanda de Contenidos Audiovisuales Nacionales, desarrollada en el país, para que veas las películas, series y cortos, cuando quieras y donde quieras." />
+    <meta name="twitter:image" ng-attr-content="{{ Page.metaImage() }}" content="https://www.cine.ar/apple-touch-icon-180x180.png" />
+
+    <link rel="canonical" href="play.cine.ar" />
+
+    <link rel="search" href="/opensearch.xml?locale=es_ES" type="application/opensearchdescription+xml" title="play.cine.ar">
+
+  <!-- BANNER EN IOS https://www.freelancer.es/community/articles/boosting-mobile-app-engagement-with-smart-banners -->
+    <meta name="apple-itunes-app" content="app-id=1236249929">
+
+    <link rel="alternate" href="android-app://com.arsat.odeon.mobile/" />
+
+    <!-- para responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, maximum-scale=1">
+
+    <!-- favicons choclo and more http://www.favicon-generator.org/-->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicon.ico?v=2">
+    <meta name="theme-color" content="#ffffff">
+<!--
+    <meta name="msapplication-TileColor" content="#da532c"/>
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" /> -->
+
+    <link rel="stylesheet" href="app/8785f88f.vendor.css">
+
+    <link rel="stylesheet" href="app/e78bcf17.app.css">
+
+    
+    <!-- CSS api
+
+      // foo: '@@foo',
+      // source filename: ./config/genres.css.html
+      // target filename: config/.tmp/genres/genres.css.html
+
+    -->
+
+    <link rel="stylesheet" href="/api/v1.7/genres/css"></link>
+
+    <!-- CSS api Code -->
+
+
+    
+
+    <!-- Analitics -->
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-117750680-1', 'auto');
+    </script>
+    <!-- End Google Analytics -->
+
+    <!-- End Analitics Code -->
+
+    <!-- <div ng-include="'fbPixel.js.html'"></div> -->
+
+
+  </head>
+  <body ng-class="{'tvod':tvod}">
+
+    <!-- Facebook Pixel Code -->
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=287095341720741&ev=PageView&noscript=1"/></noscript>
+
+    <!-- Google Pixel Code -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K44VLF4" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+      <noscript>
+        Sin JS...
+        <style media="screen">
+          /*.m-app-loading { display: none; }*/
+          /*.m-js-disabled { display: none; }*/
+          /*div.animated-container { display: none; }*/
+          div.nojs-container { display: block!important; }
+        </style>
+      </noscript>
+
+      <div class="device-xs visible-xs"></div>
+      <div class="device-sm visible-sm"></div>
+      <div class="device-md visible-md"></div>
+      <div class="device-lg visible-lg"></div>
+
+      <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+
+      <!--BEGIN: App-Loading Screen.
+        Until the AngularJS application code is loaded and bootstrapped, this is just
+        "static HTML." Meaning, the [class-based] directive, "mAppLoading", won't
+        actually do anything until the application is initialized. As such, we'll give
+        it just enough CSS to "fail open"; then, when the AngularJS app loads, the
+        directive will run and we'll remove this loading screen.
+        NOTES ON ANIMATION:
+        When the AngularJS application is loaded and starts bootstrapping, all
+        animations are disabled until all the routing information and templating
+        information is loaded AND at least two digests have run (in order to prevent
+        a flurry of animation activity). As such, we can't animate the root of the
+        directive. Instead, we have to add "ngAnimateChildren" to the root element
+        and then animate the inner container. The "ngAnimateChildren" directive allows
+        us to override the animation-blocking within the bounds of our directive, which
+        is fine since it only runs once.
+    -->
+
+
+    <!-- BEGIN: data-Loading animation. -->
+    <div ng-http-loader ttl="1" template="components/loading/loading2.html"></div>
+    <!-- END: data-Loading animation. -->
+
+
+
+    <!-- Add your site or application content here -->
+      <h1 class="seo-h1" ng-bind-template="{{::app}} - {{ Page.title() }}"> Cine.ar Play</h1>
+      <div ng-include="'components/navbar/navbar.html'"></div>
+
+      <div flash-message="5000" class='flash-messages'></div>
+      <!-- 5000 milli-secs is the display duration.
+           Flash alert will be automatically dismissed after 5000 milli-secs.
+      -->
+
+      <div ui-view="" class="container-gral" autoscroll="true"></div>
+
+      <div ng-include="'components/footer/footer.html'" ng-hide="'welcome' | isState"></div>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <script src="app/da8f238b.vendor.js"></script>
+
+    <script src="app/43230196.app.js"></script>
+
+
+    <!-- <script type="text/javascript">
+      // SIMULATING NETWORK LATENCY AND LOAD TIME. We haven't included the ngApp
+  		// directive since we're going to manually bootstrap the application. This is to
+  		// give the  page a delay, which it wouldn't normally have with such a small app.
+  		setTimeout(
+  			function asyncBootstrap() {
+
+  				angular.bootstrap( document, [ "incaaUiApp" ] );
+
+  			},
+  			( 0 * 1000 )
+  		);
+    </script> -->
+
+  </body>
 </html>
